@@ -1,24 +1,23 @@
 <div class="flex w-[85%] justify-between mx-auto md:flex-row xs:flex-col">
-  <div class="flex gap-10 items-center ">
+  <div class="flex items-center gap-10 ">
     <!-- image -->
-    <div
-      class="aspect-square xs:h-30 md:h-24  lg:h-22 	xs:w-30 md:w-24  lg:w-22 rounded-full relative">
-      <img class="absolute inset-0 w-full h-full object-cover rounded-full" fill [ngSrc]="user.picture"
-        [alt]="user.firstName">
+    <div class="relative rounded-full xs:hidden md:block aspect-square xs:h-30 md:h-24 lg:h-22 xs:w-30 md:w-24 lg:w-22">
+      <img *ngIf="user.picture" class="absolute inset-0 object-cover w-full h-full rounded-full" fill
+        [ngSrc]="user.picture" [alt]="user.firstName" priority>
     </div>
     <!-- title and subtitle -->
     <div class="flex flex-col">
-      <p class="text-white font-medium mb-3">{{user.firstName}} {{user.lastName}}</p>
-      <p class="text-white font-light">{{user.id}}</p>
+      <p class="mb-3 font-medium text-white">{{user.firstName}} {{user.lastName}}</p>
+      <p class="font-light text-white">{{user.id}}</p>
     </div>
   </div>
   <!-- action buttons -->
-  <div class="flex gap-6 items-center xs:mt-4 xs:ml-auto">
-    <button class="bg-white h-fit px-4 py-2 rounded-[5px]">
+  <div class="flex items-center gap-6 xs:mt-4 xs:ml-auto">
+    <button class="bg-white h-fit px-4 py-2 rounded-[5px]" (click)="editUser()">
       <fa-icon class="text-xl text-[#1BB0F0]" [icon]="['fas', 'edit']"></fa-icon>
     </button>
-    <button class="bg-white h-fit px-4 py-2 rounded-[5px]">
-      <fa-icon class="text-xl text-[#EC1B1B]" [icon]="['fas', 'trash']"></fa-icon>
+    <button class="bg-white h-fit px-4 py-2 rounded-[5px]" (click)="onDeleteUser()">
+      <fa-icon class="text-xl text-[#EC1B1B]" [icon]="['fas', 'trash-can']"></fa-icon>
     </button>
   </div>
 </div>

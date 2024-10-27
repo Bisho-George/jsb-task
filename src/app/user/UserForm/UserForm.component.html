@@ -1,0 +1,63 @@
+<div class="flex items-center justify-center h-full">
+  <div class="bg-white h-[85%] w-[90%] rounded-[25px] flex items-center flex-col relative">
+    <form [formGroup]="profileForm" (ngSubmit)="onCreateUser()" class="relative w-full h-full px-4 ">
+      <div class="flex flex-col items-center gap-5 mt-8">
+        <!-- Image Container -->
+        <div
+          class="relative flex items-center justify-center w-24 h-24 overflow-hidden border border-black rounded-full cursor-pointer select-none">
+          <img *ngIf="imagePreview" class="object-cover w-full h-full rounded-full" [src]="imagePreview || ''"
+            alt="User Photo">
+          <div
+            class="absolute inset-0 flex items-center justify-center transition-all duration-500 rounded-full group hover:bg-gray-200/60"
+            (click)="fileInput.click()">
+            <fa-icon class="hidden text-2xl text-black group-hover:block" [icon]="['fas', 'camera']"></fa-icon>
+          </div>
+          <!-- Hidden File Input -->
+          <input #fileInput type="file" accept=".jpg,.jpeg,.png" class="hidden" (change)="onFileSelected($event)">
+        </div>
+        <!-- Upload Button -->
+        <button (click)="fileInput.click()">
+          <p class="font-light select-none">Upload Photo</p>
+        </button>
+      </div>
+      <!-- Additional Form Fields -->
+      <div class="grid gap-4 mt-10 select-none gap-y-10 sm:grid-cols-2 xs:grid-cols-1">
+        <div class="col-span-full sm:col-span-1">
+          <input type="text" placeholder="First Name" formControlName="firstName"
+            class="block w-full outline-none p-3 pl-6 rounded-full bg-[#F5F5F5]">
+          <small class="ml-4 text-red-600"
+            *ngIf="(firstName?.touched || firstName?.dirty) && firstName?.errors?.['required']">
+            First Name is required
+          </small>
+        </div>
+        <div class="col-span-full sm:col-span-1">
+          <input type="text" placeholder="Last Name" formControlName="lastName"
+            class="block w-full outline-none p-3 pl-6 rounded-full bg-[#F5F5F5]">
+          <small class="ml-4 text-red-600"
+            *ngIf="(lastName?.touched || lastName?.dirty) && lastName?.errors?.['required']">
+            Last Name is required
+          </small>
+        </div>
+        <div class="col-span-full sm:col-span-2 sm:w-[60%] sm:mx-auto">
+          <input type="email" placeholder="Email" formControlName="email"
+            class="block w-full outline-none p-3 pl-6 rounded-full bg-[#F5F5F5]">
+          <small class="ml-4 text-red-600" *ngIf="(email?.touched || email?.dirty) && email?.errors?.['required']">
+            Email is required
+          </small>
+          <small class="ml-4 text-red-600" *ngIf="(email?.touched || email?.dirty) && email?.errors?.['email']">
+            Email is not valid
+          </small>
+        </div>
+      </div>
+      <!-- Action Buttons at the Bottom -->
+      <div class="absolute left-0 w-full px-4 bottom-6">
+        <div class="flex xs:items-center sm:justify-between xs:flex-col gap-y-4 sm:flex-row">
+          <button type="button" (click)="cancel()"
+            class="py-3 rounded-[25px] w-40 bg-[#D9D9D9] font-light">Cancel</button>
+          <button [disabled]="!profileForm.valid"
+            class="py-3 rounded-[25px] w-40 bg-[#1BB0F0] font-light text-white">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

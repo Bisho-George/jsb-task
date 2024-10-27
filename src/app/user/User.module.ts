@@ -5,17 +5,23 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserCardComponent } from './UserCard/UserCard.component';
+import { UserFormComponent } from './UserForm/UserForm.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
-  { path: '', component: UserComponent }
+  { path: '', component: UserComponent },
+  { path: 'user/create', component: UserFormComponent },
+  { path: 'user/:id', component: UserFormComponent }
 ]
 @NgModule({
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
     FontAwesomeModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    ReactiveFormsModule,
+    FormsModule
   ],
-  declarations: [UserComponent, UserCardComponent]
+  declarations: [UserComponent, UserCardComponent, UserFormComponent]
 })
 export class UserModule { }
