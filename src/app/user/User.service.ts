@@ -17,7 +17,6 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getUsers(limit: number, page: number) {
-    console.log(`${this.apiUrl}?limit='${limit}&page=${page}`);
     return this.http.get<UserResponse>(`${this.apiUrl}?limit=${limit}&page=${page}`, {
       headers: this.headers
     });
