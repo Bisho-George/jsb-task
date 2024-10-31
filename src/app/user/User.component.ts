@@ -4,8 +4,9 @@ import { UserService } from './User.service';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faAdd, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { User } from '../models/User.model';
-import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, pipe, Subject, takeUntil, tap } from 'rxjs';
 import { LoadingService } from '../shared/services/loading.service';
+import { UserResponse } from '../models/UserResponse.model';
 
 @Component({
   selector: 'app-User',
@@ -64,13 +65,13 @@ export class UserComponent implements OnInit, OnDestroy {
 
   private loadUsers(limit: number, page: number) {
     this.userService.getUsers(limit, page)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.users = data.data;
-        this.applySearchFilter();
-        this.pageNumber = data.page;
-        this.totalPages = Math.ceil(data.total / limit);
-      });
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((data) => {
+      this.users = data.data;
+      this.applySearchFilter();
+      this.pageNumber = data.page;
+      this.totalPages = Math.ceil(data.total / limit);
+    });
   }
 
   onCreateUser() {
@@ -87,10 +88,11 @@ export class UserComponent implements OnInit, OnDestroy {
       this.filteredUsers = this.users;
     } else {
       const term = this.searchTerm.toLowerCase();
-      // Filter users by checking if the combined name includes the search term
-      this.filteredUsers = this.users.filter(user => {
-        const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
-        return fullName.includes(term);
+      this.userService.getAllUsers().subscribe((data: UserResponse) => {
+        pipe(takeUntil(this.destroy$));
+        this.filteredUsers = data.data.filter((user: User) => {
+          return user.firstName.toLowerCase().includes(term) || user.lastName.toLowerCase().includes(term);
+        })
       });
     }
   }
